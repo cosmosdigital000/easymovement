@@ -3,10 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faPhone, faEnvelope, faMapMarkerAlt, faClock, faCheckCircle, faAward, faUsers } from "@fortawesome/free-solid-svg-icons";
 
+type SpecializationKey = "ortho" | "neuro" | "postop" | "sports" | "geriatric";
+
+type Doctor = {
+  name: string;
+  experience: number;
+  qualification: string;
+  photo: string;
+};
+
 const PhysioHome = () => {
-  const [activeTab, setActiveTab] = useState("ortho");
+  const [activeTab, setActiveTab] = useState<SpecializationKey>("ortho");
   const [equation, setEquation] = useState({ a: 0, b: 0 });
-  const [correctAnswer, setCorrectAnswer] = useState(null);
+  const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingType, setBookingType] = useState("direct");
   const [showOTP, setShowOTP] = useState(false);
@@ -19,7 +28,7 @@ const PhysioHome = () => {
     Problem: ""
   });
 
-  const specializations = {
+  const specializations: Record<SpecializationKey, string> = {
     ortho: "Orthopedic",
     neuro: "Neurological",
     postop: "Post-Operative",
@@ -27,7 +36,7 @@ const PhysioHome = () => {
     geriatric: "Geriatric Care"
   };
 
-  const doctors = {
+  const doctors: Record<SpecializationKey, Doctor[]> = {
     ortho: [
       { name: "Dr. Arun Kumar", experience: 8, qualification: "MPT (Ortho)", photo: "👨‍⚕️" },
       { name: "Dr. Priya Singh", experience: 6, qualification: "BPT, MPT", photo: "👩‍⚕️" }
@@ -188,7 +197,7 @@ const PhysioHome = () => {
             {Object.entries(specializations).map(([key, label]) => (
               <button
                 key={key}
-                onClick={() => setActiveTab(key)}
+                onClick={() => setActiveTab(key as SpecializationKey)}
                 className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   activeTab === key
                     ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg transform scale-105"
@@ -202,7 +211,7 @@ const PhysioHome = () => {
 
           {/* Doctor Cards - Modern Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {doctors[activeTab]?.map((doctor, idx) => (
+            {doctors[activeTab]?.map((doctor: Doctor, idx: number) => (
               <div
                 key={idx}
                 className="group bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
