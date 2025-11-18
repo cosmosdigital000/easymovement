@@ -1,0 +1,199 @@
+/* Mobile fixes for physiotherapy clinic site */
+
+/* Base mobile typography adjustments */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  h1,
+  .h1 {
+    font-size: 1.8rem !important;
+  }
+
+  h2,
+  .h2,
+  .section-heading {
+    font-size: 1.6rem !important;
+  }
+
+  h3,
+  .h3,
+  .card-title {
+    font-size: 1.3rem !important;
+  }
+
+  h4,
+  .h4 {
+    font-size: 1.15rem !important;
+  }
+
+  p,
+  .card-text,
+  .form-text {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* Extra small devices optimization */
+@media (max-width: 576px) {
+  html {
+    font-size: 13px;
+  }
+
+  h1,
+  .h1 {
+    font-size: 1.6rem !important;
+  }
+
+  h2,
+  .h2,
+  .section-heading {
+    font-size: 1.4rem !important;
+  }
+
+  p,
+  .card-text,
+  .form-text {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Layout adjustments for mobile */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .row {
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+  }
+
+  [class*="col-"] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .card {
+    padding: 1.2rem !important;
+  }
+
+  .section-padding {
+    padding: 2rem 0 !important;
+  }
+
+  .mx-auto {
+    max-width: 100% !important;
+  }
+}
+
+/* Button size adjustments */
+@media (max-width: 768px) {
+  .btn,
+  button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+    min-height: unset !important;
+    height: auto !important;
+  }
+
+  .btn-lg,
+  .btn-group-lg > .btn {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Appointment form fixes */
+@media (max-width: 768px) {
+  .appointment-section {
+    margin: 1.5rem auto !important;
+    padding: 1rem 0 !important;
+  }
+
+  .progress-tracker {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .appointment-card {
+    border-left-width: 3px !important;
+  }
+
+  form .space-y-7 {
+    margin-top: 1.5rem !important;
+  }
+
+  .time-slots-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+}
+
+/* Fix for buttons with inline styles on mobile */
+@media (max-width: 768px) {
+  button[style*="width:"],
+  button[style*="height:"],
+  button[style*="padding:"],
+  button[style*="font-size:"] {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  [style*="position: fixed"] {
+    bottom: 15px !important;
+    right: 15px !important;
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Modal and dialog fixes */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 0.5rem !important;
+    max-width: calc(100% - 1rem) !important;
+  }
+
+  .modal-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Fix overflow issues */
+@media (max-width: 768px) {
+  .overflow-auto-mobile {
+    overflow: auto !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .table-responsive {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  .text-truncate-mobile {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}

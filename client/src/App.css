@@ -1,0 +1,261 @@
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  font-family: "Rubik", sans-serif;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #ea728caa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Enhanced Card Styling */
+.card {
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(234, 114, 140, 0.15);
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Appointment Related Styling */
+.appointment-section {
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  padding: 2rem 0;
+  margin: 3rem auto;
+  max-width: 95%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.appointment-card {
+  border-left: 4px solid #ea728c;
+  transition: all 0.3s ease;
+}
+
+.appointment-card:hover {
+  border-left: 4px solid #5fd080;
+}
+
+.btn-appointment {
+  background-color: #ea728c;
+  border-color: #ea728c;
+  padding: 10px 25px;
+  font-weight: 500;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  color: #ffffff; /* Ensuring text is visible */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Adding slight text shadow for better contrast */
+}
+
+.btn-appointment:hover {
+  background-color: #e34668;
+  border-color: #e34668;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(234, 114, 140, 0.3);
+}
+
+/* Section styling */
+.section-heading {
+  position: relative;
+  margin-bottom: 3rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
+.section-heading:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -15px;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  background-color: #ea728c;
+}
+
+/* Animation for elements */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Health-related accent colors */
+.text-healing {
+  color: #5fd080 !important;
+}
+
+.bg-healing {
+  background-color: #5fd080 !important;
+}
+
+.text-wellness {
+  color: #ea728c !important;
+}
+
+.bg-wellness {
+  background-color: #ea728c !important;
+}
+
+/* Enhanced WhatsApp button */
+.whatsapp-widget {
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4) !important;
+}
+
+.whatsapp-tooltip {
+  position: absolute;
+  right: 75px;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.whatsapp-widget:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Button styles to ensure visibility */
+button,
+.btn {
+  position: relative;
+  display: inline-block;
+  color: #333;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button.primary,
+.btn-primary {
+  background-color: #3a9efd;
+  color: white;
+  border-color: #3a9efd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button.outline,
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #3a9efd;
+  color: #3a9efd;
+}
+
+button:disabled,
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5em;
+  }
+
+  h1,
+  h2,
+  .section-heading {
+    font-size: 1.8rem;
+  }
+
+  h3,
+  .card-title {
+    font-size: 1.4rem;
+  }
+
+  p,
+  .card-text,
+  .form-text {
+    font-size: 0.95rem;
+  }
+
+  .btn,
+  button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1.2em;
+  }
+
+  h1,
+  h2,
+  .section-heading {
+    font-size: 1.6rem;
+  }
+
+  h3,
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  p,
+  .card-text,
+  .form-text {
+    font-size: 0.9rem;
+  }
+
+  .btn,
+  button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
