@@ -2,6 +2,9 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faPhone, faEnvelope, faMapMarkerAlt, faClock, faCheckCircle, faAward, faUsers } from "@fortawesome/free-solid-svg-icons";
+import drShushil from "../assets/drshushil.jpeg";
+import drVijay from "../assets/drvijay.jpeg";
+import drPrem from "../assets/drprem.jpeg";
 
 type SpecializationKey = "ortho" | "neuro" | "postop" | "sports" | "geriatric";
 
@@ -19,6 +22,7 @@ const PhysioHome = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingType, setBookingType] = useState("direct");
   const [showOTP, setShowOTP] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -38,13 +42,15 @@ const PhysioHome = () => {
 
   const doctors: Record<SpecializationKey, Doctor[]> = {
     ortho: [
-      { name: "Dr. Arun Kumar", experience: 8, qualification: "MPT (Ortho)", photo: "👨‍⚕️" },
+      { name: "Dr Shushil Kamal", experience: 15, qualification: "MBBS, MS (ortho)", photo: drShushil },
       { name: "Dr. Priya Singh", experience: 6, qualification: "BPT, MPT", photo: "👩‍⚕️" }
     ],
     neuro: [
+      { name: "Dr Vijay Pathania PT", experience: 12, qualification: "BPT, MPT(Neuro)", photo: drVijay },
       { name: "Dr. Rajesh Sharma", experience: 10, qualification: "MPT (Neuro)", photo: "👨‍⚕️" }
     ],
     postop: [
+      { name: "Dr Prem Prakash PT", experience: 10, qualification: "BPT, (NMCH)", photo: drPrem },
       { name: "Dr. Sunita Rao", experience: 7, qualification: "MPT", photo: "👩‍⚕️" }
     ],
     sports: [
@@ -56,8 +62,9 @@ const PhysioHome = () => {
   };
 
   const recommendedDoctors = [
-    { ...doctors.ortho[0], trusted: true },
-    { ...doctors.neuro[0], trusted: true }
+    { name: "Dr Shushil Kamal", experience: 15, qualification: "MBBS, MS (ortho)", photo: drShushil, trusted: true },
+    { name: "Dr Vijay Pathania PT", experience: 12, qualification: "BPT, MPT(Neuro)", photo: drVijay, trusted: true },
+    { name: "Dr Prem Prakash PT", experience: 10, qualification: "BPT, (NMCH)", photo: drPrem, trusted: true }
   ];
 
   const handleBooking = async () => {
@@ -107,26 +114,98 @@ const PhysioHome = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       {/* Modern Header */}
+
+
+
+
       <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl font-bold">EM</span>
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                EasyMovement
-              </h1>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="#services" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">Services</a>
-              <a href="#about" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">About</a>
-              <a href="#contact" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">Contact</a>
-            </nav>
-            <button className="md:hidden text-slate-700 text-2xl">☰</button>
-          </div>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-between items-center py-4">
+      {/* Logo */}
+      <div className="flex items-center space-x-3 flex-shrink-0">
+        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+          <span className="text-white text-xl font-bold">EM</span>
         </div>
-      </header>
+        <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          EasyMovement
+        </h1>
+      </div>
+
+      {/* Desktop Navigation - Hidden on mobile using inline style */}
+      <nav 
+        className="items-center space-x-8"
+        style={{ display: window.innerWidth >= 768 ? 'flex' : 'none' }}
+      >
+        <a href="#services" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+          Services
+        </a>
+        <a href="#about" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+          About
+        </a>
+        <a href="#contact" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+          Contact
+        </a>
+        <button
+          onClick={() => setShowBookingModal(true)}
+          className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+        >
+          📅 Book Session
+        </button>
+      </nav>
+
+      {/* Mobile Menu Button - Visible only on mobile using inline style */}
+      <button 
+        className="text-slate-700 text-2xl focus:outline-none p-2 rounded-lg hover:bg-slate-100"
+        style={{ display: window.innerWidth < 768 ? 'flex' : 'none' }}
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle mobile menu"
+      >
+        {isMobileMenuOpen ? "✕" : "☰"}
+      </button>
+    </div>
+    
+    {/* Mobile Menu Dropdown - Only renders when open AND on mobile */}
+    {isMobileMenuOpen && (
+      <div 
+        className="border-t border-slate-200 py-4"
+        style={{ display: window.innerWidth < 768 ? 'block' : 'none' }}
+      >
+        <nav className="flex flex-col space-y-2">
+          <a 
+            href="#services" 
+            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Services
+          </a>
+          <a 
+            href="#about" 
+            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            About
+          </a>
+          <a 
+            href="#contact" 
+            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Contact
+          </a>
+          <button
+            onClick={() => {
+              setShowBookingModal(true);
+              setIsMobileMenuOpen(false);
+            }}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold mt-2"
+          >
+            📅 Book Session
+          </button>
+        </nav>
+      </div>
+    )}
+  </div>
+</header>
 
       {/* Promotional Banner */}
       <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white py-3 overflow-hidden">
@@ -217,7 +296,17 @@ const PhysioHome = () => {
                 className="group bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-emerald-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 <div className="text-center">
-                  <div className="text-7xl mb-4">{doctor.photo}</div>
+                  <div className="mb-4 flex justify-center">
+                    {typeof doctor.photo === 'string' && (doctor.photo.startsWith('👨') || doctor.photo.startsWith('👩')) ? (
+                      <div className="text-7xl">{doctor.photo}</div>
+                    ) : (
+                      <img 
+                        src={doctor.photo} 
+                        alt={doctor.name}
+                        className="w-32 h-32 rounded-full object-cover border-4 border-emerald-200"
+                      />
+                    )}
+                  </div>
                   <h4 className="text-xl font-bold text-slate-900 mb-2">{doctor.name}</h4>
                   <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-3">
                     {doctor.experience} Years Experience
@@ -245,7 +334,7 @@ const PhysioHome = () => {
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {recommendedDoctors.map((doctor, idx) => (
               <div
                 key={idx}
@@ -254,7 +343,15 @@ const PhysioHome = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200 to-amber-300 rounded-bl-full opacity-20"></div>
                 <div className="relative z-10 text-center">
                   <div className="inline-block p-1 bg-amber-100 rounded-full mb-4">
-                    <div className="text-6xl">{doctor.photo}</div>
+                    {typeof doctor.photo === 'string' && (doctor.photo.startsWith('👨') || doctor.photo.startsWith('👩')) ? (
+                      <div className="text-6xl">{doctor.photo}</div>
+                    ) : (
+                      <img 
+                        src={doctor.photo} 
+                        alt={doctor.name}
+                        className="w-32 h-32 rounded-full object-cover border-4 border-amber-200"
+                      />
+                    )}
                   </div>
                   <h4 className="text-2xl font-bold text-slate-900 mb-2">{doctor.name}</h4>
                   <div className="flex items-center justify-center gap-2 mb-3">
