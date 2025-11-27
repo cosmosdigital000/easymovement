@@ -10,7 +10,7 @@ type SpecializationKey = "ortho" | "neuro" | "postop" | "sports" | "geriatric";
 
 type Doctor = {
   name: string;
-  experience: number;
+  experience: number; // Now represents patients served instead of years
   qualification: string;
   photo: string;
 };
@@ -23,6 +23,7 @@ const PhysioHome = () => {
   const [bookingType, setBookingType] = useState("direct");
   const [showOTP, setShowOTP] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -42,35 +43,40 @@ const PhysioHome = () => {
 
   const doctors: Record<SpecializationKey, Doctor[]> = {
     ortho: [
-      { name: "Dr Shushil Kamal", experience: 15, qualification: "MBBS, MS (ortho)", photo: drShushil },
-      { name: "Dr. Priya Singh", experience: 6, qualification: "BPT, MPT", photo: "👩‍⚕️" }
+      { name: "Dr Shushil Kamal", experience: 5000, qualification: "MBBS, MS (ortho)", photo: drShushil },
+      { name: "Dr. Priya Singh", experience: 4500, qualification: "BPT, MPT", photo: "👩‍⚕️" }
     ],
     neuro: [
-      { name: "Dr Vijay Pathania PT", experience: 12, qualification: "BPT, MPT(Neuro)", photo: drVijay },
-      { name: "Dr. Rajesh Sharma", experience: 10, qualification: "MPT (Neuro)", photo: "👨‍⚕️" }
+      { name: "Dr Vijay Pathania PT", experience: 3000, qualification: "BPT, MPT(Neuro)", photo: drVijay },
+      { name: "Dr. Rajesh Sharma", experience: 3500, qualification: "MPT (Neuro)", photo: "👨‍⚕️" }
     ],
     postop: [
-      { name: "Dr Prem Prakash PT", experience: 10, qualification: "BPT, (NMCH)", photo: drPrem },
-      { name: "Dr. Sunita Rao", experience: 7, qualification: "MPT", photo: "👩‍⚕️" }
+      { name: "Dr Prem Prakash PT", experience: 2000, qualification: "BPT, (NMCH)", photo: drPrem },
+      { name: "Dr. Sunita Rao", experience: 3200, qualification: "MPT", photo: "👩‍⚕️" }
     ],
     sports: [
-      { name: "Dr. Vikram Joshi", experience: 5, qualification: "BPT, Sports Med", photo: "👨‍⚕️" }
+      { name: "Dr. Vikram Joshi", experience: 2800, qualification: "BPT, Sports Med", photo: "👨‍⚕️" }
     ],
     geriatric: [
-      { name: "Dr. Meena Patel", experience: 12, qualification: "MPT (Geriatric)", photo: "👩‍⚕️" }
+      { name: "Dr. Meena Patel", experience: 4000, qualification: "MPT (Geriatric)", photo: "👩‍⚕️" }
     ]
   };
 
   const recommendedDoctors = [
-    { name: "Dr Shushil Kamal", experience: 15, qualification: "MBBS, MS (ortho)", photo: drShushil, trusted: true },
-    { name: "Dr Vijay Pathania PT", experience: 12, qualification: "BPT, MPT(Neuro)", photo: drVijay, trusted: true },
-    { name: "Dr Prem Prakash PT", experience: 10, qualification: "BPT, (NMCH)", photo: drPrem, trusted: true }
+    { name: "Dr Shushil Kamal", experience: 5000, qualification: "MBBS, MS (ortho)", photo: drShushil, trusted: true },
+    { name: "Dr Vijay Pathania PT", experience: 3000, qualification: "BPT, MPT(Neuro)", photo: drVijay, trusted: true },
+    { name: "Dr Prem Prakash PT", experience: 2000, qualification: "BPT, (NMCH)", photo: drPrem, trusted: true }
   ];
 
   const handleBooking = async () => {
     const scriptURL = "https://script.google.com/macros/s/AKfycbzr1jvvLyHf-nrvuwoviX9LGKxZa18kyK3-x7oczeqWAQM703j6j25EdON9WtFOVDbZ/exec";
-
+  
     if (!showOTP) {
+      // Validate required fields before showing OTP
+      if (!formData.name || !formData.mobile || !formData.address) {
+        alert("Please fill in all required fields (Name, Mobile, Address)");
+        return;
+      }
       const a = Math.floor(Math.random() * 10) + 1;
       const b = Math.floor(Math.random() * 10) + 1;
       setEquation({ a, b });
@@ -78,12 +84,17 @@ const PhysioHome = () => {
       setShowOTP(true);
       return;
     }
-
+  
     if (parseInt(formData.otp) !== correctAnswer) {
       alert("Incorrect answer. Please try again.");
       return;
     }
-
+  
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+  
     try {
       await fetch(scriptURL, {
         method: "POST",
@@ -99,16 +110,21 @@ const PhysioHome = () => {
           bookingType: bookingType,
         }),
       });
+      
+      // Add a small delay to ensure submission completes
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
       alert("Booking saved! Our physiotherapist will contact you soon.");
+      setShowBookingModal(false);
+      setShowOTP(false);
+      setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
     } catch (error) {
       const err = error as Error;
       console.error("Error!", err.message);
       alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setShowBookingModal(false);
-    setShowOTP(false);
-    setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
   };
 
   return (
@@ -309,7 +325,7 @@ const PhysioHome = () => {
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 mb-2">{doctor.name}</h4>
                   <div className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-3">
-                    {doctor.experience} Years Experience
+                    {doctor.experience} Patients Served
                   </div>
                   <p className="text-slate-600 mb-3">{doctor.qualification}</p>
                   <div className="pt-3 border-t border-slate-200">
@@ -356,7 +372,7 @@ const PhysioHome = () => {
                   <h4 className="text-2xl font-bold text-slate-900 mb-2">{doctor.name}</h4>
                   <div className="flex items-center justify-center gap-2 mb-3">
                     <FontAwesomeIcon icon={faAward} className="text-amber-500" />
-                    <span className="text-emerald-700 font-semibold">{doctor.experience} Years Excellence</span>
+                    <span className="text-emerald-700 font-semibold">{doctor.experience}+ Patients Served</span>
                   </div>
                   <p className="text-slate-600">{doctor.qualification}</p>
                 </div>
@@ -594,23 +610,42 @@ const PhysioHome = () => {
               </div>
 
               <div className="flex gap-3 pt-4">
-                <button
-                  onClick={handleBooking}
-                  className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  {showOTP ? "✓ Confirm Booking" : "Continue →"}
-                </button>
-                <button
-                  onClick={() => {
-                    setShowBookingModal(false);
-                    setShowOTP(false);
-                    setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
-                  }}
-                  className="flex-1 bg-slate-200 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-300 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
+  <button
+    onClick={handleBooking}
+    disabled={isSubmitting}
+    className={`flex-1 py-3 rounded-xl font-semibold transition-all duration-300 transform ${
+      isSubmitting 
+        ? 'bg-slate-400 cursor-not-allowed' 
+        : 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:shadow-lg hover:scale-105'
+    }`}
+  >
+    {isSubmitting ? (
+      <span className="flex items-center justify-center">
+        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1"></span>
+        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1" style={{ animationDelay: '0.1s' }}></span>
+        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-2" style={{ animationDelay: '0.2s' }}></span>
+        Submitting...
+      </span>
+    ) : (
+      showOTP ? "✓ Confirm Booking" : "Continue →"
+    )}
+  </button>
+  <button
+    onClick={() => {
+      setShowBookingModal(false);
+      setShowOTP(false);
+      setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
+    }}
+    disabled={isSubmitting}
+    className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
+      isSubmitting 
+        ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
+        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+    }`}
+  >
+    Cancel
+  </button>
+</div>
             </div>
           </div>
         </div>
