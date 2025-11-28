@@ -43,15 +43,15 @@ const PhysioHome = () => {
 
   const doctors: Record<SpecializationKey, Doctor[]> = {
     ortho: [
-      { name: "Dr Shushil Kamal", experience: 5000, qualification: "MBBS, MS (ortho)", photo: drShushil },
-      { name: "Dr. Priya Singh", experience: 4500, qualification: "BPT, MPT", photo: "👩‍⚕️" }
+      { name: "Dr. Sushil Kamal", experience: 5000, qualification: "MBBS, MS Orthopaedics", photo: drShushil },
+      { name: "Dr. Priya Singh", experience: 4500, qualification: "BPT, MPT Orthopaedics", photo: "👩‍⚕️" }
     ],
     neuro: [
-      { name: "Dr Vijay Pathania PT", experience: 3000, qualification: "BPT, MPT(Neuro)", photo: drVijay },
+      { name: "Dr. Vijay Pathania", experience: 3000, qualification: "BPT, MPT Neuro", photo: drVijay },
       { name: "Dr. Rajesh Sharma", experience: 3500, qualification: "MPT (Neuro)", photo: "👨‍⚕️" }
     ],
     postop: [
-      { name: "Dr Prem Prakash PT", experience: 2000, qualification: "BPT, (NMCH)", photo: drPrem },
+      { name: "Dr. Prem Prakash", experience: 2000, qualification: "BPT, NMCH", photo: drPrem },
       { name: "Dr. Sunita Rao", experience: 3200, qualification: "MPT", photo: "👩‍⚕️" }
     ],
     sports: [
@@ -63,14 +63,15 @@ const PhysioHome = () => {
   };
 
   const recommendedDoctors = [
-    { name: "Dr Shushil Kamal", experience: 5000, qualification: "MBBS, MS (ortho)", photo: drShushil, trusted: true },
-    { name: "Dr Vijay Pathania PT", experience: 3000, qualification: "BPT, MPT(Neuro)", photo: drVijay, trusted: true },
-    { name: "Dr Prem Prakash PT", experience: 2000, qualification: "BPT, (NMCH)", photo: drPrem, trusted: true }
+    { name: "Dr. Vijay Pathania", experience: 3000, qualification: "BPT, MPT Neuro", designation: "Consultant Physiotherapist", photo: drVijay, trusted: true },
+    { name: "Dr. Prem Prakash", experience: 2000, qualification: "BPT, NMCH", designation: "Consultant Physiotherapist", photo: drPrem, trusted: true },
+    { name: "Dr. Priya Singh", experience: 4500, qualification: "BPT, MPT Orthopaedics", designation: "Consultant Orthopaedic", photo: "👩‍⚕️", trusted: true },
+    { name: "Dr. Sushil Kamal", experience: 5000, qualification: "MBBS, MS Orthopaedics", designation: "Consultant Orthopaedic", photo: drShushil, trusted: true }
   ];
 
   const handleBooking = async () => {
     const scriptURL = "https://script.google.com/macros/s/AKfycbzr1jvvLyHf-nrvuwoviX9LGKxZa18kyK3-x7oczeqWAQM703j6j25EdON9WtFOVDbZ/exec";
-  
+
     if (!showOTP) {
       // Validate required fields before showing OTP
       if (!formData.name || !formData.mobile || !formData.address) {
@@ -84,17 +85,17 @@ const PhysioHome = () => {
       setShowOTP(true);
       return;
     }
-  
+
     if (parseInt(formData.otp) !== correctAnswer) {
       alert("Incorrect answer. Please try again.");
       return;
     }
-  
+
     // Prevent multiple submissions
     if (isSubmitting) return;
-    
+
     setIsSubmitting(true);
-  
+
     try {
       await fetch(scriptURL, {
         method: "POST",
@@ -110,10 +111,10 @@ const PhysioHome = () => {
           bookingType: bookingType,
         }),
       });
-      
+
       // Add a small delay to ensure submission completes
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       alert("Booking saved! Our physiotherapist will contact you soon.");
       setShowBookingModal(false);
       setShowOTP(false);
@@ -135,93 +136,93 @@ const PhysioHome = () => {
 
 
       <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex justify-between items-center py-4">
-      {/* Logo */}
-      <div className="flex items-center space-x-3 flex-shrink-0">
-        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-          <span className="text-white text-xl font-bold">EM</span>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            {/* Logo */}
+            <div className="flex items-center space-x-3 flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-xl font-bold">EM</span>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                EasyMovement
+              </h1>
+            </div>
+
+            {/* Desktop Navigation - Hidden on mobile using inline style */}
+            <nav
+              className="items-center space-x-8"
+              style={{ display: window.innerWidth >= 768 ? 'flex' : 'none' }}
+            >
+              <a href="#services" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+                Services
+              </a>
+              <a href="#about" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+                About
+              </a>
+              <a href="#contact" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
+                Contact
+              </a>
+              <button
+                onClick={() => setShowBookingModal(true)}
+                className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+              >
+                📅 Book Session
+              </button>
+            </nav>
+
+            {/* Mobile Menu Button - Visible only on mobile using inline style */}
+            <button
+              className="text-slate-700 text-2xl focus:outline-none p-2 rounded-lg hover:bg-slate-100"
+              style={{ display: window.innerWidth < 768 ? 'flex' : 'none' }}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? "✕" : "☰"}
+            </button>
+          </div>
+
+          {/* Mobile Menu Dropdown - Only renders when open AND on mobile */}
+          {isMobileMenuOpen && (
+            <div
+              className="border-t border-slate-200 py-4"
+              style={{ display: window.innerWidth < 768 ? 'block' : 'none' }}
+            >
+              <nav className="flex flex-col space-y-2">
+                <a
+                  href="#services"
+                  className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Services
+                </a>
+                <a
+                  href="#about"
+                  className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a
+                  href="#contact"
+                  className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+                <button
+                  onClick={() => {
+                    setShowBookingModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold mt-2"
+                >
+                  📅 Book Session
+                </button>
+              </nav>
+            </div>
+          )}
         </div>
-        <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-          EasyMovement
-        </h1>
-      </div>
-
-      {/* Desktop Navigation - Hidden on mobile using inline style */}
-      <nav 
-        className="items-center space-x-8"
-        style={{ display: window.innerWidth >= 768 ? 'flex' : 'none' }}
-      >
-        <a href="#services" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
-          Services
-        </a>
-        <a href="#about" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
-          About
-        </a>
-        <a href="#contact" className="text-slate-700 hover:text-emerald-600 font-medium transition-colors">
-          Contact
-        </a>
-        <button
-          onClick={() => setShowBookingModal(true)}
-          className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
-        >
-          📅 Book Session
-        </button>
-      </nav>
-
-      {/* Mobile Menu Button - Visible only on mobile using inline style */}
-      <button 
-        className="text-slate-700 text-2xl focus:outline-none p-2 rounded-lg hover:bg-slate-100"
-        style={{ display: window.innerWidth < 768 ? 'flex' : 'none' }}
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        aria-label="Toggle mobile menu"
-      >
-        {isMobileMenuOpen ? "✕" : "☰"}
-      </button>
-    </div>
-    
-    {/* Mobile Menu Dropdown - Only renders when open AND on mobile */}
-    {isMobileMenuOpen && (
-      <div 
-        className="border-t border-slate-200 py-4"
-        style={{ display: window.innerWidth < 768 ? 'block' : 'none' }}
-      >
-        <nav className="flex flex-col space-y-2">
-          <a 
-            href="#services" 
-            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Services
-          </a>
-          <a 
-            href="#about" 
-            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            About
-          </a>
-          <a 
-            href="#contact" 
-            className="text-slate-700 hover:text-emerald-600 font-medium py-3 px-4 rounded-lg hover:bg-emerald-50"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Contact
-          </a>
-          <button
-            onClick={() => {
-              setShowBookingModal(true);
-              setIsMobileMenuOpen(false);
-            }}
-            className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold mt-2"
-          >
-            📅 Book Session
-          </button>
-        </nav>
-      </div>
-    )}
-  </div>
-</header>
+      </header>
 
       {/* Promotional Banner */}
       <div className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white py-3 overflow-hidden">
@@ -255,7 +256,7 @@ const PhysioHome = () => {
             >
               <span>📅 Book Your Session Now</span>
             </button>
-            
+
             {/* Trust Indicators */}
             <div className="mt-12 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto">
               <div className="text-center">
@@ -293,11 +294,10 @@ const PhysioHome = () => {
               <button
                 key={key}
                 onClick={() => setActiveTab(key as SpecializationKey)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  activeTab === key
-                    ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg transform scale-105"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${activeTab === key
+                  ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg transform scale-105"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  }`}
               >
                 {label}
               </button>
@@ -316,8 +316,8 @@ const PhysioHome = () => {
                     {typeof doctor.photo === 'string' && (doctor.photo.startsWith('👨') || doctor.photo.startsWith('👩')) ? (
                       <div className="text-7xl">{doctor.photo}</div>
                     ) : (
-                      <img 
-                        src={doctor.photo} 
+                      <img
+                        src={doctor.photo}
                         alt={doctor.name}
                         className="w-32 h-32 rounded-full object-cover border-4 border-emerald-200"
                       />
@@ -349,7 +349,7 @@ const PhysioHome = () => {
               Our Most Trusted Therapists
             </h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {recommendedDoctors.map((doctor, idx) => (
               <div
@@ -362,19 +362,20 @@ const PhysioHome = () => {
                     {typeof doctor.photo === 'string' && (doctor.photo.startsWith('👨') || doctor.photo.startsWith('👩')) ? (
                       <div className="text-6xl">{doctor.photo}</div>
                     ) : (
-                      <img 
-                        src={doctor.photo} 
+                      <img
+                        src={doctor.photo}
                         alt={doctor.name}
                         className="w-32 h-32 rounded-full object-cover border-4 border-amber-200"
                       />
                     )}
                   </div>
                   <h4 className="text-2xl font-bold text-slate-900 mb-2">{doctor.name}</h4>
+                  <div className="text-emerald-700 font-medium mb-3">{doctor.designation}</div>
                   <div className="flex items-center justify-center gap-2 mb-3">
                     <FontAwesomeIcon icon={faAward} className="text-amber-500" />
-                    <span className="text-emerald-700 font-semibold">{doctor.experience}+ Patients Served</span>
+                    <span className="text-slate-600 font-semibold">{doctor.experience}+ Patients Served</span>
                   </div>
-                  <p className="text-slate-600">{doctor.qualification}</p>
+                  <p className="text-slate-500 text-sm">{doctor.qualification}</p>
                 </div>
               </div>
             ))}
@@ -610,42 +611,40 @@ const PhysioHome = () => {
               </div>
 
               <div className="flex gap-3 pt-4">
-  <button
-    onClick={handleBooking}
-    disabled={isSubmitting}
-    className={`flex-1 py-3 rounded-xl font-semibold transition-all duration-300 transform ${
-      isSubmitting 
-        ? 'bg-slate-400 cursor-not-allowed' 
-        : 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:shadow-lg hover:scale-105'
-    }`}
-  >
-    {isSubmitting ? (
-      <span className="flex items-center justify-center">
-        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1"></span>
-        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1" style={{ animationDelay: '0.1s' }}></span>
-        <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-2" style={{ animationDelay: '0.2s' }}></span>
-        Submitting...
-      </span>
-    ) : (
-      showOTP ? "✓ Confirm Booking" : "Continue →"
-    )}
-  </button>
-  <button
-    onClick={() => {
-      setShowBookingModal(false);
-      setShowOTP(false);
-      setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
-    }}
-    disabled={isSubmitting}
-    className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
-      isSubmitting 
-        ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
-        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-    }`}
-  >
-    Cancel
-  </button>
-</div>
+                <button
+                  onClick={handleBooking}
+                  disabled={isSubmitting}
+                  className={`flex-1 py-3 rounded-xl font-semibold transition-all duration-300 transform ${isSubmitting
+                    ? 'bg-slate-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:shadow-lg hover:scale-105'
+                    }`}
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1"></span>
+                      <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-1" style={{ animationDelay: '0.1s' }}></span>
+                      <span className="inline-block w-2 h-2 bg-white rounded-full animate-bounce mr-2" style={{ animationDelay: '0.2s' }}></span>
+                      Submitting...
+                    </span>
+                  ) : (
+                    showOTP ? "✓ Confirm Booking" : "Continue →"
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowBookingModal(false);
+                    setShowOTP(false);
+                    setFormData({ name: "", mobile: "", address: "", otp: "", doctorname: "", Problem: "" });
+                  }}
+                  disabled={isSubmitting}
+                  className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${isSubmitting
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    }`}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
